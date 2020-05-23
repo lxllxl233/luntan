@@ -1,4 +1,6 @@
 #综合的springboot项目
+##写在前面
+>这个文档会记录这个项目使用到的技术如何整合 springboot 以及基本使用,是本人 springboot 的整合复习,如果对你有帮助,留个 star 吧
 ##git的使用
 >创建远程仓库
 >
@@ -16,4 +18,5 @@
 >```shell script
 >git rm -r --cached 文件名
 >#删除指定文件后再提交代码
+>#记得编辑 .gitignore 文件
 >```
