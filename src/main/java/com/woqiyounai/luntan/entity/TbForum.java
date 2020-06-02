@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.woqiyounai.luntan.request.LunTanReleaseRequest;
+import com.woqiyounai.luntan.request.LunTanUpdateRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -51,6 +54,29 @@ public class TbForum implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    public TbForum(Integer id, Integer v2Id, Integer userId, String title, String text, Integer version, Date createTime, Date updateTime) {
+        this.id = id;
+        this.v2Id = v2Id;
+        this.userId = userId;
+        this.title = title;
+        this.text = text;
+        this.version = version;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    public TbForum(LunTanReleaseRequest lunTanReleaseRequest) {
+        this.v2Id = lunTanReleaseRequest.getV2Id();
+        this.userId = lunTanReleaseRequest.getUserId();
+        this.title = lunTanReleaseRequest.getTitle();
+        this.text = lunTanReleaseRequest.getText();
+    }
+
+    public TbForum(LunTanUpdateRequest lunTanUpdateRequest) {
+        this.id = lunTanUpdateRequest.getId();
+        this.title = lunTanUpdateRequest.getTitle();
+        this.text = lunTanUpdateRequest.getText();
+    }
 
     public Integer getId() {
         return id;

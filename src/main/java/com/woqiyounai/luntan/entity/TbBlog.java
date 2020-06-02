@@ -7,6 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.woqiyounai.luntan.request.BlogCommentRequest;
+import com.woqiyounai.luntan.request.BlogReleaseRequest;
+import com.woqiyounai.luntan.request.BlogUpdateRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -51,6 +55,29 @@ public class TbBlog implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    public TbBlog(Integer id, Integer userId, Integer v2Id, String title, String text, Integer version, Date createTime, Date updateTime) {
+        this.id = id;
+        this.userId = userId;
+        this.v2Id = v2Id;
+        this.title = title;
+        this.text = text;
+        this.version = version;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    public TbBlog(BlogReleaseRequest blogReleaseRequest) {
+        this.v2Id = blogReleaseRequest.getV2Id();
+        this.userId = blogReleaseRequest.getUserId();
+        this.title = blogReleaseRequest.getTitle();
+        this.text = blogReleaseRequest.getText();
+    }
+
+    public TbBlog(BlogUpdateRequest blogUpdateRequest) {
+        this.id = blogUpdateRequest.getId();
+        this.text = blogUpdateRequest.getText();
+        this.title = blogUpdateRequest.getTitle();
+    }
 
     public Integer getId() {
         return id;

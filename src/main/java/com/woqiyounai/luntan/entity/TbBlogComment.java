@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.woqiyounai.luntan.request.BlogCommentRequest;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -54,6 +56,25 @@ public class TbBlogComment implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    public TbBlogComment(Integer id, Integer pId, Integer blogId, Integer userId, Integer bUserId, String text, Integer version, Date createTime, Date updateTime) {
+        this.id = id;
+        this.pId = pId;
+        this.blogId = blogId;
+        this.userId = userId;
+        this.bUserId = bUserId;
+        this.text = text;
+        this.version = version;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
+    public TbBlogComment(BlogCommentRequest blogCommentRequest) {
+        this.userId = blogCommentRequest.getUserId();
+        this.pId = blogCommentRequest.getpId();
+        this.bUserId = blogCommentRequest.getbUserId();
+        this.blogId = blogCommentRequest.getBlogId();
+        this.text = blogCommentRequest.getText();
+    }
 
     public Integer getId() {
         return id;

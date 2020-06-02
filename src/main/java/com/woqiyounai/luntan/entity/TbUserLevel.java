@@ -48,6 +48,15 @@ public class TbUserLevel implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    public TbUserLevel(Integer id, Integer lv, String lvName, Integer lvExperience, Integer version, Date createTime, Date updateTime) {
+        this.id = id;
+        this.lv = lv;
+        this.lvName = lvName;
+        this.lvExperience = lvExperience;
+        this.version = version;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 
     public Integer getId() {
         return id;

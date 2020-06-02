@@ -43,6 +43,14 @@ public class TbBlogCatalogV1 implements Serializable {
     private Date updateTime;
 
 
+    public TbBlogCatalogV1(Integer id, String name, Integer version, Date createTime, Date updateTime) {
+        this.id = id;
+        this.name = name;
+        this.version = version;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public Integer getId() {
         return id;
     }

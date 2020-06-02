@@ -28,7 +28,7 @@ CREATE TABLE `tb_blog` (
   `v2_id` int(8) DEFAULT NULL COMMENT '所属二级分类下的id',
   `title` varchar(225) DEFAULT NULL COMMENT '博客标题',
   `text` text COMMENT '博客正文',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `tb_blog_catalog_v1`;
 CREATE TABLE `tb_blog_catalog_v1` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '博客的id',
   `name` varchar(32) DEFAULT NULL COMMENT '博客的分类名称',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -73,7 +73,7 @@ CREATE TABLE `tb_blog_catalog_v2` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '博客二级分类的id',
   `v1_id` int(8) DEFAULT NULL COMMENT '所属一级分类 id',
   `name` varchar(32) DEFAULT NULL COMMENT '二级分类名称',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -99,7 +99,7 @@ CREATE TABLE `tb_blog_comment` (
   `user_id` int(8) DEFAULT NULL COMMENT '用户的id',
   `b_user_id` int(8) DEFAULT NULL COMMENT '被回复的userId',
   `text` varchar(1024) DEFAULT NULL COMMENT '评论的正文',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -124,7 +124,7 @@ CREATE TABLE `tb_forum` (
   `user_id` int(8) DEFAULT NULL COMMENT '创建者的id',
   `title` varchar(255) DEFAULT NULL COMMENT '论坛标题',
   `text` text COMMENT '论坛正文',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -146,7 +146,7 @@ DROP TABLE IF EXISTS `tb_forum_catalog_v1`;
 CREATE TABLE `tb_forum_catalog_v1` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '论坛一级分类的id',
   `name` varchar(32) DEFAULT NULL COMMENT '博客的分类名称',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -169,7 +169,7 @@ CREATE TABLE `tb_forum_catalog_v2` (
   `id` int(8) NOT NULL AUTO_INCREMENT COMMENT '论坛二级分类的id',
   `v1_id` int(8) DEFAULT NULL COMMENT '所属一级分类 id',
   `name` varchar(32) DEFAULT NULL COMMENT '二级分类名称',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -195,7 +195,7 @@ CREATE TABLE `tb_forum_commit` (
   `user_id` int(8) DEFAULT NULL COMMENT '评论用户的id',
   `b_user_id` int(8) DEFAULT NULL COMMENT '被回复用户的 id',
   `text` text COMMENT '回复正文',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -222,18 +222,21 @@ CREATE TABLE `tb_user` (
   `user_password` varchar(32) DEFAULT NULL COMMENT '用户密码',
   `user_introduction` varchar(1024) DEFAULT NULL COMMENT '用户自我介绍',
   `identity` int(2) DEFAULT NULL COMMENT '用户身份标识',
-  `user_experience` int(8) DEFAULT NULL COMMENT '用户当前所具有的经验值',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `user_experience` int(8) DEFAULT 0 COMMENT '用户当前所具有的经验值',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `user_headimg` varchar(255) DEFAULT NULL COMMENT '用户头像',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tb_user_user_phone_uindex` (`user_phone`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `tb_user`
 --
 
+INSERT INTO `tb_user` VALUES (4,'string','string','string','b45cffe084dd3d20d928bee85e7b0f21','string',1,NULL,1,'2020-06-01 07:47:00','2020-06-01 07:47:00',NULL);
 
 --
 -- Table structure for table `tb_user_level`
@@ -247,7 +250,7 @@ CREATE TABLE `tb_user_level` (
   `lv` int(8) DEFAULT NULL COMMENT '等级名称',
   `lv_name` varchar(64) DEFAULT NULL COMMENT '等级称号',
   `lv_experience` int(8) DEFAULT NULL COMMENT '到达该等级需要的经验',
-  `version` int(8) DEFAULT NULL COMMENT '乐观锁',
+  `version` int(8) DEFAULT '1' COMMENT '乐观锁',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '最后一次更新时间',
   PRIMARY KEY (`id`)
@@ -268,4 +271,4 @@ CREATE TABLE `tb_user_level` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-05-22 22:42:28
+-- Dump completed on 2020-06-01 20:47:30

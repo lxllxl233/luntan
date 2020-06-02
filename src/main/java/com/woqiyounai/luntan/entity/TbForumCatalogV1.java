@@ -42,6 +42,13 @@ public class TbForumCatalogV1 implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    public TbForumCatalogV1(Integer id, String name, Integer version, Date createTime, Date updateTime) {
+        this.id = id;
+        this.name = name;
+        this.version = version;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 
     public Integer getId() {
         return id;
