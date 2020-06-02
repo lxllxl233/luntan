@@ -172,4 +172,9 @@ public class AdminServiceImpl implements AdminService {
         return tbAllAdvisoryDao.findAll();
     }
 
+    @Override
+    public Page<TbAllAdvisory> findAllAdvisoryByPage(Example<TbAllAdvisory> example, Pageable pageable) {
+        return tbAllAdvisoryDao.findAll(example,pageable);
+    }
+
 }

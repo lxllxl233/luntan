@@ -95,7 +95,7 @@ public class NewWebsocket {
             //创建房间
             long id = idWorker.nextId();
             String roomId = ""+id;
-            String aLong = hotel.addRoom(websocketRequestMsg.getUserId(), roomId, new Room(roomId, websocketRequestMsg.getMembers(), new ArrayList<>()));
+            String aLong = hotel.addRoom(websocketRequestMsg.getUserId(), roomId, new Room(roomId, websocketRequestMsg.getMembers(), new ArrayList<>(),websocketRequestMsg.getAppId()));
             CommonResponse<String> response = new CommonResponse<>(200, "创建成功", aLong);
             SendMessage(session,JSON.toJSONString(response));
 

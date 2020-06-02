@@ -6,6 +6,7 @@ import java.util.List;
 public class Room implements Serializable {
     //房间id
     private String roomId;
+    private Integer appId;
     private Members members;
     //模型坐标
     private List<Location> locations;
@@ -13,10 +14,11 @@ public class Room implements Serializable {
     public Room() {
     }
 
-    public Room(String roomId, Members members, List<Location> locations) {
+    public Room(String roomId, Members members, List<Location> locations,Integer appId) {
         this.roomId = roomId;
         this.members = members;
         this.locations = locations;
+        this.appId = appId;
     }
 
     public String getRoomId() {
@@ -41,6 +43,14 @@ public class Room implements Serializable {
 
     public void setLocations(List<Location> locations) {
         this.locations = locations;
+    }
+
+    public Integer getAppId() {
+        return appId;
+    }
+
+    public void setAppId(Integer appId) {
+        this.appId = appId;
     }
 
     //添加/修改模型位置

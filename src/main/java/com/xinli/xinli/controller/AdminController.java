@@ -59,6 +59,9 @@ public class AdminController {
     @ApiOperation("修改(管理员0/督导师1/咨询师2)账号资料,需要传入已经存在的id")
     @PostMapping("/api/admin/updateAccount")
     public CommonResponse<TbMasterEntity> updateAccount(@RequestBody TbMasterEntity tbMasterEntity){
+        if (null != tbMasterEntity.getMasterPassword()){
+            tbMasterEntity.setMasterPassword(DigestUtils.md5DigestAsHex(tbMasterEntity.getMasterPassword().getBytes()));
+        }
         try {
             tbMasterEntity = adminService.addAccount(tbMasterEntity);
         }catch (Exception e){
@@ -209,6 +212,51 @@ public class AdminController {
         List<TbAllAdvisory> tbAllAdvisoryList = null;
         try {
             tbAllAdvisoryList = adminService.findAllAdvisory();
+            return new CommonResponse<>(200,"获取成功",tbAllAdvisoryList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",tbAllAdvisoryList);
+        }
+    }
+
+    @ApiOperation("/获取所有咨询结果,具有连表查询所有数据,有分页,级联")
+    @GetMapping("/api/admin/getAllAdvisoryHasJoinAndPage")
+    public CommonResponse<Page<TbAllAdvisory>> getAllAdvisoryHasJoinAndPage(Integer currentPage,Integer size){
+        Page<TbAllAdvisory> tbAllAdvisoryList = null;
+        try {
+            Sort sort = Sort.by(Sort.Order.desc("adTime"));
+            Pageable pageable = PageRequest.of(currentPage-1, size, sort);
+            TbAllAdvisory tbAdvisoryEntity = new TbAllAdvisory();
+            Example<TbAllAdvisory> example = Example.of(tbAdvisoryEntity);
+            tbAllAdvisoryList = adminService.findAllAdvisoryByPage(example, pageable);
+            return new CommonResponse<>(200,"获取成功",tbAllAdvisoryList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",tbAllAdvisoryList);
+        }
+    }
+
+    @ApiOperation("/获取 咨询师0/督导师1/学员2 所有咨询结果,具有连表查询所有数据,有分页,级联")
+    @GetMapping("/api/admin/getAllResultsHasJoinAndPage")
+    public CommonResponse<Page<TbAllAdvisory>> getAllAdvisoryHasJoinAndPage(Integer currentPage,Integer size,Integer identity,Integer id){
+        Page<TbAllAdvisory> tbAllAdvisoryList = null;
+        try {
+            Sort sort = Sort.by(Sort.Order.desc("adTime"));
+            Pageable pageable = PageRequest.of(currentPage-1, size, sort);
+            TbAllAdvisory tbAdvisoryEntity = new TbAllAdvisory();
+
+            if (identity.equals(0)){
+                tbAdvisoryEntity.setMasterConsultantId(id);
+            }
+            if (identity.equals(1)){
+                tbAdvisoryEntity.setMasterSupervisorId(id);
+            }
+            if (identity.equals(2)){
+                tbAdvisoryEntity.setUserId(id);
+            }
+
+            Example<TbAllAdvisory> example = Example.of(tbAdvisoryEntity);
+            tbAllAdvisoryList = adminService.findAllAdvisoryByPage(example, pageable);
             return new CommonResponse<>(200,"获取成功",tbAllAdvisoryList);
         }catch (Exception e){
             e.printStackTrace();

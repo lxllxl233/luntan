@@ -77,6 +77,9 @@ public class UserController {
     @ApiOperation("学员修改个人信息,需要传入已经存在的个人id")
     @PostMapping("/api/user/updateAccount")
     public CommonResponse<TbUserEntity> updateAccount(@RequestBody TbUserEntity tbUserEntity){
+        if (null != tbUserEntity.getUserPassword()){
+            tbUserEntity.setUserPassword(DigestUtils.md5DigestAsHex(tbUserEntity.getUserPassword().getBytes()));
+        }
         try {
             tbUserEntity = userService.addAccount(tbUserEntity);
         }catch (Exception e){

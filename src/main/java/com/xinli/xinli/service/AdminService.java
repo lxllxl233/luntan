@@ -31,4 +31,6 @@ public interface AdminService {
     Page<TbAdvisoryEntity> getAllAdvisoryByPage(Example<TbAdvisoryEntity> example, Pageable pageable);
 
     List<TbAllAdvisory> findAllAdvisory();
+
+    Page<TbAllAdvisory> findAllAdvisoryByPage(Example<TbAllAdvisory> example, Pageable pageable);
 }
