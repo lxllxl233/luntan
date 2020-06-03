@@ -51,6 +51,10 @@ public class TbBlogCatalogV1 implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public TbBlogCatalogV1(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

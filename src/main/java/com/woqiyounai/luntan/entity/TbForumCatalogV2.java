@@ -54,6 +54,10 @@ public class TbForumCatalogV2 implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public TbForumCatalogV2(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
