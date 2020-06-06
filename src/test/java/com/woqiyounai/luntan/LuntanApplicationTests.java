@@ -5,6 +5,7 @@ import com.woqiyounai.luntan.service.TbUserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.DigestUtils;
 
 @SpringBootTest
 class LuntanApplicationTests {
@@ -13,8 +14,7 @@ class LuntanApplicationTests {
     TbUserService tbUserService;
     @Test
     void contextLoads() {
-        TbUser byId = tbUserService.getById(1);
-        System.out.println(byId);
+        System.out.println(DigestUtils.md5DigestAsHex("string".getBytes()));
     }
 
 }

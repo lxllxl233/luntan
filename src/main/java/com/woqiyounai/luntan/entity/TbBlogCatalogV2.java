@@ -58,6 +58,11 @@ public class TbBlogCatalogV2 implements Serializable {
         this.name = name;
     }
 
+    public TbBlogCatalogV2(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

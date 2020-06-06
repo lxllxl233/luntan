@@ -23,4 +23,6 @@ public interface TbBlogService {
     void releaseComment(BlogCommentRequest blogCommentRequest);
 
     OneBlogCommentResponse findCommentByBlogId(Integer blogId);
+
+    TbBlog getBlogById(Integer blogId);
 }

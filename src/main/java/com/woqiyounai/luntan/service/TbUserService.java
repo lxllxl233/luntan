@@ -4,6 +4,8 @@ import com.woqiyounai.luntan.entity.TbUser;
 import com.woqiyounai.luntan.request.UserChangeInfoRequest;
 import com.woqiyounai.luntan.request.UserLoginRequest;
 import com.woqiyounai.luntan.request.UserRegisteredRequest;
+import com.woqiyounai.luntan.response.other.OneBlogCatalogResponse;
+import com.woqiyounai.luntan.response.other.OneForumCatalogResponse;
 
 public interface TbUserService {
     TbUser getById(int i);
@@ -16,4 +18,13 @@ public interface TbUserService {
     void updateUserInfo(UserChangeInfoRequest userChangeInfoRequest);
 
     void updateUserPassword(Integer userId, String password);
+
+    OneBlogCatalogResponse getAllBlogCatalog();
+
+    OneForumCatalogResponse getAllForumCatalog();
+
+
+    boolean selectUserByPassword(String getbPassword, Integer userId);
+
+    TbUser findUserByUserId(Integer userId);
 }

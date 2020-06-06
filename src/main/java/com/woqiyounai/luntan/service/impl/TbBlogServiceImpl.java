@@ -48,6 +48,7 @@ public class TbBlogServiceImpl implements TbBlogService {
     public List<TbBlog> findBlogByV2Id(Integer v2Id) {
         QueryWrapper<TbBlog> blogQueryWrapper = new QueryWrapper<>();
         blogQueryWrapper.eq("v2_id",v2Id);
+        blogQueryWrapper.select("id","user_id","v2_id","title","create_time","update_time");
         List<TbBlog> blogList = tbBlogMapper.selectList(blogQueryWrapper);
         return blogList;
     }
@@ -93,5 +94,10 @@ public class TbBlogServiceImpl implements TbBlogService {
             return oneBlogCommentResponse;
         }
         return null;
+    }
+
+    @Override
+    public TbBlog getBlogById(Integer blogId) {
+        return tbBlogMapper.selectById(blogId);
     }
 }

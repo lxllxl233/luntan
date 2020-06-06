@@ -1,14 +1,19 @@
 package com.woqiyounai.luntan.controller;
 
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.PutObjectRequest;
 import com.aliyun.oss.model.PutObjectResult;
 import com.woqiyounai.luntan.entity.TbUser;
 import com.woqiyounai.luntan.request.UserChangeInfoRequest;
+import com.woqiyounai.luntan.request.UserChangePasswordRequest;
 import com.woqiyounai.luntan.request.UserLoginRequest;
 import com.woqiyounai.luntan.request.UserRegisteredRequest;
 import com.woqiyounai.luntan.response.CommonResponse;
+import com.woqiyounai.luntan.response.other.LoginResponse;
+import com.woqiyounai.luntan.response.other.OneBlogCatalogResponse;
+import com.woqiyounai.luntan.response.other.OneForumCatalogResponse;
+import com.woqiyounai.luntan.response.other.info.OneBlogCatalog;
+import com.woqiyounai.luntan.response.other.info.OneForumCatalog;
 import com.woqiyounai.luntan.service.TbUserService;
 import com.woqiyounai.luntan.util.TokenUtil;
 import io.swagger.annotations.Api;
@@ -21,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -51,7 +57,7 @@ public class TbUserController {
     //用户登录
     @ApiOperation("用户登录")
     @PostMapping("/api/user/userLogin")
-    public CommonResponse userRegistered(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request){
+    public CommonResponse<LoginResponse> userRegistered(@RequestBody UserLoginRequest userLoginRequest, HttpServletRequest request){
         TbUser tbUser = null;
         String ip = request.getHeader("x-forwarded-for");
         if (StringUtils.isEmpty(ip)) {
@@ -67,7 +73,8 @@ public class TbUserController {
                 map.put("username", userLoginRequest.getUserPhone());
                 map.put("password", userLoginRequest.getPassword());
                 String token = TokenUtil.encode(tbUser.getId() + "", map, ip);
-                return new CommonResponse(200, "用户登录成功", token);
+                LoginResponse loginResponse = new LoginResponse(tbUser.getId(), token);
+                return new CommonResponse(200, "登录成功", loginResponse);
             }else {
                 return new CommonResponse(500,"用户名或密码错误",null);
             }
@@ -78,11 +85,29 @@ public class TbUserController {
     }
     //用户查看自己的信息
     @ApiOperation("用户查看自己的信息")
-    @PostMapping("/api/user/lookUserInfo")
+    @GetMapping("/api/user/lookUserInfo")
     public CommonResponse<TbUser> lookUserInfo(String userPhone){
         TbUser tbUser = null;
         try {
             tbUser = tbUserService.findUserByUserPhone(userPhone);
+            if (null != tbUser){
+                tbUser.setUserPassword("******");
+                return new CommonResponse(200,"获取成功",tbUser);
+            }else {
+                return new CommonResponse(500,"未找到该用户信息",null);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse(500,"服务器出现了问题",null);
+        }
+    }
+    //根据id查看用户的信息
+    @ApiOperation("根据id查看用户的信息")
+    @GetMapping("/api/user/lookUserInfoById")
+    public CommonResponse<TbUser> lookUserInfo(Integer userId){
+        TbUser tbUser = null;
+        try {
+            tbUser = tbUserService.findUserByUserId(userId);
             if (null != tbUser){
                 tbUser.setUserPassword("******");
                 return new CommonResponse(200,"获取成功",tbUser);
@@ -109,10 +134,15 @@ public class TbUserController {
     //用户修改密码
     @ApiOperation("用户修改密码")
     @PostMapping("/api/user/userChangePassword")
-    public CommonResponse userChangePassword(Integer userId,String password){
+    public CommonResponse userChangePassword(@RequestBody UserChangePasswordRequest userChangePasswordRequest){
         try {
-            tbUserService.updateUserPassword(userId,password);
-            return new CommonResponse(200,"修改成功",null);
+            boolean isRight = tbUserService.selectUserByPassword(userChangePasswordRequest.getbPassword(), userChangePasswordRequest.getUserId());
+            if (isRight){
+                tbUserService.updateUserPassword(userChangePasswordRequest.getUserId(),userChangePasswordRequest.getPassword());
+                return new CommonResponse(200,"修改成功",null);
+            }else {
+                return new CommonResponse(300,"修改前密码错误",null);
+            }
         }catch (Exception e){
             e.printStackTrace();
             return new CommonResponse(500,"修改失败",null);
@@ -140,6 +170,34 @@ public class TbUserController {
             return new CommonResponse<>(200,"上传失败",null);
         }
     }
+
+    //获取博客所有分类
+    @ApiOperation("获取博客所有分类")
+    @GetMapping("/api/user/getAllBlogCatalog")
+    public CommonResponse<List<OneBlogCatalog>> getAllBlogCatalog(){
+        OneBlogCatalogResponse oneBlogCatalogResponse = null;
+        try {
+            oneBlogCatalogResponse = tbUserService.getAllBlogCatalog();
+            return new CommonResponse<>(200,"获取成功",oneBlogCatalogResponse.getBlogCatalogList());
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",null);
+        }
+    }
+    //获取论坛所有分类
+    @ApiOperation("获取论坛所有分类")
+    @GetMapping("/api/user/getAllForumCatalog")
+    public CommonResponse<List<OneForumCatalog>> getAllForumCatalog(){
+        OneForumCatalogResponse oneForumCatalogResponse = null;
+        try {
+            oneForumCatalogResponse = tbUserService.getAllForumCatalog();
+            return new CommonResponse<>(200,"获取成功",oneForumCatalogResponse.getForumCatalogList());
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",null);
+        }
+    }
+
 }
 
 

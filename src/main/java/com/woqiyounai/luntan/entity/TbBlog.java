@@ -66,6 +66,15 @@ public class TbBlog implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public TbBlog(Integer id, Integer userId, Integer v2Id, String title, Date createTime, Date updateTime) {
+        this.id = id;
+        this.userId = userId;
+        this.v2Id = v2Id;
+        this.title = title;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
+
     public TbBlog(BlogReleaseRequest blogReleaseRequest) {
         this.v2Id = blogReleaseRequest.getV2Id();
         this.userId = blogReleaseRequest.getUserId();

@@ -6,14 +6,12 @@ import com.woqiyounai.luntan.request.LunTanReleaseRequest;
 import com.woqiyounai.luntan.request.LunTanUpdateRequest;
 import com.woqiyounai.luntan.response.CommonResponse;
 import com.woqiyounai.luntan.response.other.OneForumCommentResponse;
+import com.woqiyounai.luntan.response.other.info.OneForumCommit;
 import com.woqiyounai.luntan.service.TbForumService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -50,7 +48,7 @@ public class TbForumController {
     }
     //根据用户id获取该用户的论坛
     @ApiOperation("根据id获取该用户的所有论坛")
-    @PostMapping("/api/forum/getLunTanByUserId")
+    @GetMapping("/api/forum/getLunTanByUserId")
     public CommonResponse<List<TbForum>> getLunTanByUserId(Integer userId){
         List<TbForum> tbForumList = null;
         try {
@@ -63,7 +61,7 @@ public class TbForumController {
     }
     //根据名称搜索论坛
     @ApiOperation("根据名称模糊搜索论坛")
-    @PostMapping("/api/forum/searchLunTan")
+    @GetMapping("/api/forum/searchLunTan")
     public CommonResponse<List<TbForum>> searchLunTan(String searchName){
         List<TbForum> tbForumList = null;
         try {
@@ -76,7 +74,7 @@ public class TbForumController {
     }
     //根据二级id获取论坛
     @ApiOperation("根据二级id获取论坛")
-    @PostMapping("/api/forum/getLunTanByV2Id")
+    @GetMapping("/api/forum/getLunTanByV2Id")
     public CommonResponse<List<TbForum>> getLunTanByV2Id(Integer v2Id){
         List<TbForum> tbForumList = null;
         try {
@@ -90,7 +88,7 @@ public class TbForumController {
     //发布论坛下的评论
     @ApiOperation("发布论坛下的评论")
     @PostMapping("/api/forum/postComment")
-    public CommonResponse<String> postComment(LunTanCommentRequest lunTanCommentRequest){
+    public CommonResponse<String> postComment(@RequestBody LunTanCommentRequest lunTanCommentRequest){
         try {
             tbForumService.postComment(lunTanCommentRequest);
         }catch (Exception e){
@@ -99,13 +97,13 @@ public class TbForumController {
         return null;
     }
     //获取论坛评论,根据论坛 id
-    @ApiOperation("发布论坛下的评论")
-    @PostMapping("/api/forum/getComment")
-    public CommonResponse<OneForumCommentResponse> getComment(Integer forumId){
+    @ApiOperation("获取论坛下的评论")
+    @GetMapping("/api/forum/getComment")
+    public CommonResponse<List<OneForumCommit>> getComment(Integer forumId){
         OneForumCommentResponse oneForumCommentResponse = null;
         try {
             oneForumCommentResponse = tbForumService.getComment(forumId);
-            return new CommonResponse<>(200,"获取成功",oneForumCommentResponse);
+            return new CommonResponse<>(200,"获取成功",oneForumCommentResponse.getForumCommitList());
         }catch (Exception e){
             e.printStackTrace();
             return new CommonResponse<>(500,"获取失败",null);

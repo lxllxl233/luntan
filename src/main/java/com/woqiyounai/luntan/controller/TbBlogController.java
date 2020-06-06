@@ -6,14 +6,12 @@ import com.woqiyounai.luntan.request.BlogReleaseRequest;
 import com.woqiyounai.luntan.request.BlogUpdateRequest;
 import com.woqiyounai.luntan.response.CommonResponse;
 import com.woqiyounai.luntan.response.other.OneBlogCommentResponse;
+import com.woqiyounai.luntan.response.other.info.OneBlogCommit;
 import com.woqiyounai.luntan.service.TbBlogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,7 +49,7 @@ public class TbBlogController {
     }
     //用户获取自己的博客
     @ApiOperation("根据用户id获取该用户所有的的博客")
-    @PostMapping("/api/blog/getUserBlog")
+    @GetMapping("/api/blog/getUserBlog")
     public CommonResponse<List<TbBlog>> getUserBlog(Integer userId){
         List<TbBlog> blogList = null;
         try {
@@ -64,7 +62,7 @@ public class TbBlogController {
     }
     //根据二级分类获取博客
     @ApiOperation("根据二级分类获取博客")
-    @PostMapping("/api/blog/getV2Blog")
+    @GetMapping("/api/blog/getV2Blog")
     public CommonResponse<List<TbBlog>> getV2Blog(Integer v2Id){
         List<TbBlog> blogList = null;
         try {
@@ -77,7 +75,7 @@ public class TbBlogController {
     }
     //根据名称搜索博客
     @ApiOperation("根据博客名称模糊搜索博客")
-    @PostMapping("/api/blog/searchBlog")
+    @GetMapping("/api/blog/searchBlog")
     public CommonResponse<List<TbBlog>> searchBlog(String searchName){
         List<TbBlog> blogList = null;
         try {
@@ -102,15 +100,29 @@ public class TbBlogController {
     }
     //根据博客id获取博客评论
     @ApiOperation("获取博客评论")
-    @PostMapping("/api/blog/getComment")
-    public CommonResponse<OneBlogCommentResponse> getComment(Integer blogId){
+    @GetMapping("/api/blog/getComment")
+    public CommonResponse<List<OneBlogCommit>> getComment(Integer blogId){
         OneBlogCommentResponse oneBlogCommentResponse = null;
         try {
             oneBlogCommentResponse = tbBlogService.findCommentByBlogId(blogId);
-            return new CommonResponse<>(200,"获取成功",oneBlogCommentResponse);
+            return new CommonResponse<>(200,"获取成功",oneBlogCommentResponse.getBlogCommitList());
         }catch (Exception e){
             e.printStackTrace();
             return new CommonResponse<>(500,"获取失败",null);
+        }
+    }
+
+    //根据 id 获取博客
+    @ApiOperation("根据 id 获取博客")
+    @GetMapping("/api/blog/getBlogById")
+    public CommonResponse<TbBlog> getBlogById(Integer blogId){
+        TbBlog tbBlog = null;
+        try {
+            tbBlog = tbBlogService.getBlogById(blogId);
+            return new CommonResponse<>(200,"获取成功",tbBlog);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",tbBlog);
         }
     }
 

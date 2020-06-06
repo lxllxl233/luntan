@@ -1,9 +1,6 @@
 package com.woqiyounai.luntan.service;
 
-import com.woqiyounai.luntan.entity.TbBlogCatalogV1;
-import com.woqiyounai.luntan.entity.TbBlogCatalogV2;
-import com.woqiyounai.luntan.entity.TbForumCatalogV1;
-import com.woqiyounai.luntan.entity.TbForumCatalogV2;
+import com.woqiyounai.luntan.entity.*;
 
 import java.util.List;
 
@@ -20,4 +17,22 @@ public interface TbAdminService {
     void addBlogCatalogV2(String name);
 
     void addForumCatalogV2(String name);
+
+    void updateBlogCatalogV1(Integer id, String name);
+
+    void updateForumCatalogV1(Integer id, String name);
+
+    void updateBlogCatalogV2(Integer id, String name);
+
+    void updateForumCatalogV2(Integer id, String name);
+
+    void deleteBlogCatalogV1(Integer id);
+
+    void deleteForumCatalogV1(Integer id);
+
+    void deleteBlogCatalogV2(Integer id);
+
+    void deleteForumCatalogV2(Integer id);
+
+    List<TbUser> getAllUser();
 }

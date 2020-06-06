@@ -1,9 +1,6 @@
 package com.woqiyounai.luntan.controller;
 
-import com.woqiyounai.luntan.entity.TbBlogCatalogV1;
-import com.woqiyounai.luntan.entity.TbBlogCatalogV2;
-import com.woqiyounai.luntan.entity.TbForumCatalogV1;
-import com.woqiyounai.luntan.entity.TbForumCatalogV2;
+import com.woqiyounai.luntan.entity.*;
 import com.woqiyounai.luntan.response.CommonResponse;
 import com.woqiyounai.luntan.service.TbAdminService;
 import io.swagger.annotations.Api;
@@ -122,9 +119,111 @@ public class AdminController {
         }
     }
     //修改一级分类名称
+    @ApiOperation("修改博客一级分类名称")
+    @PostMapping("/api/admin/updateBlogCatalogV1")
+    public CommonResponse<String> updateBlogCatalogV1(Integer id,String name){
+        try {
+            tbAdminService.updateBlogCatalogV1(id,name);
+            return new CommonResponse<>(200,"修改成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"修改失败","fail");
+        }
+    }
+    @ApiOperation("修改论坛一级分类名称")
+    @PostMapping("/api/admin/updateForumCatalogV1")
+    public CommonResponse<String> updateForumCatalogV1(Integer id,String name){
+        try {
+            tbAdminService.updateForumCatalogV1(id,name);
+            return new CommonResponse<>(200,"修改成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"修改失败","fail");
+        }
+    }
     //修改二级分类名称
+    @ApiOperation("修改博客二级分类名称")
+    @PostMapping("/api/admin/updateBlogCatalogV2")
+    public CommonResponse<String> updateBlogCatalogV2(Integer id,String name){
+        try {
+            tbAdminService.updateBlogCatalogV2(id,name);
+            return new CommonResponse<>(200,"修改成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"修改失败","fail");
+        }
+    }
+    @ApiOperation("修改论坛二级分类名称")
+    @PostMapping("/api/admin/updateForumCatalogV2")
+    public CommonResponse<String> updateForumCatalogV2(Integer id,String name){
+        try {
+            tbAdminService.updateForumCatalogV2(id,name);
+            return new CommonResponse<>(200,"修改成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"修改失败","fail");
+        }
+    }
     //删除一级分类,连带删除二级分类
-    //删除二级分类
+    @ApiOperation("删除博客一级分类,连带删除博客二级分类")
+    @PostMapping("/api/admin/deleteBlogCatalogV1")
+    public CommonResponse<String> deleteBlogCatalogV1(Integer id){
+        try {
+            tbAdminService.deleteBlogCatalogV1(id);
+            return new CommonResponse<>(200,"删除成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"删除失败","fail");
+        }
+    }
+
+    @ApiOperation("删除论坛一级分类,连带删除博客二级分类")
+    @PostMapping("/api/admin/deleteForumCatalogV1")
+    public CommonResponse<String> deleteForumCatalogV1(Integer id){
+        try {
+            tbAdminService.deleteForumCatalogV1(id);
+            return new CommonResponse<>(200,"删除成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"删除失败","fail");
+        }
+    }
+
+    @ApiOperation("删除博客二级分类")
+    @PostMapping("/api/admin/deleteBlogCatalogV2")
+    public CommonResponse<String> deleteBlogCatalogV2(Integer id){
+        try {
+            tbAdminService.deleteBlogCatalogV2(id);
+            return new CommonResponse<>(200,"删除成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"删除失败","fail");
+        }
+    }
+
+    @ApiOperation("删除论坛二级分类")
+    @PostMapping("/api/admin/deleteForumCatalogV2")
+    public CommonResponse<String> deleteForumCatalogV2(Integer id){
+        try {
+            tbAdminService.deleteForumCatalogV2(id);
+            return new CommonResponse<>(200,"删除成功","success");
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"删除失败","fail");
+        }
+    }
     //获取网站所有的用户信息
+    @ApiOperation("获取网站所有用户")
+    @PostMapping("/api/admin/getAllUser")
+    public CommonResponse<List<TbUser>> getAllUser(){
+        List<TbUser> tbUserList = null;
+        try {
+            tbUserList = tbAdminService.getAllUser();
+            return new CommonResponse<>(200,"获取成功",tbUserList);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",tbUserList);
+        }
+    }
     //网站等级设置
 }
