@@ -21,12 +21,15 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
                 ip = "127.0.0.1";
             }
         }
+
         if (TokenUtil.checkToken(token,userId,ip)) {
             System.out.println("pass");
             return true;
         }
-        //开发模式,直接return true
 
+        System.out.println("un pass");
         return false;
+        //开发模式,直接return true
+        //return true;
     }
 }

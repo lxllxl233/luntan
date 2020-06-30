@@ -16,8 +16,8 @@ public class UploadFile {
     @Bean
     public OSS getOssClient(){
         String endpoint = "https://oss-cn-beijing.aliyuncs.com/";
-        String accessKeyId = "LTAI4GC3znL5YpJCTGnfYrz9";
-        String accessKeySecret = "kBQHLmYwe60pz1Ovj77JycFMz1yulz";
+        String accessKeyId = "";
+        String accessKeySecret = "";
         OSS ossClient = new OSSClient(endpoint, accessKeyId, accessKeySecret);
         System.out.println("--- 创建成功 ---");
         return ossClient;

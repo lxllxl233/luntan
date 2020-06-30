@@ -109,19 +109,19 @@ public class TbForumController {
             return new CommonResponse<>(500,"获取失败",null);
         }
     }
+
+    //根据 id 获取论坛
+    @ApiOperation("根据 id 获取论坛")
+    @GetMapping("/api/forum/getLunTanById")
+    public CommonResponse<TbForum> getLunTanById(Integer forumId){
+        TbForum tbForum = null;
+        try {
+            tbForum = tbForumService.getLunTanById(forumId);
+            return new CommonResponse<>(200,"获取成功",tbForum);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"获取失败",null);
+        }
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

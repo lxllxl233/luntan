@@ -64,6 +64,17 @@ public class TbForum implements Serializable {
         this.createTime = createTime;
         this.updateTime = updateTime;
     }
+    //"id","user_id","v2_id","title","create_time","update_time"
+
+
+    public TbForum(Integer id, Integer v2Id, Integer userId, String title, Date createTime, Date updateTime) {
+        this.id = id;
+        this.v2Id = v2Id;
+        this.userId = userId;
+        this.title = title;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 
     public TbForum(LunTanReleaseRequest lunTanReleaseRequest) {
         this.v2Id = lunTanReleaseRequest.getV2Id();

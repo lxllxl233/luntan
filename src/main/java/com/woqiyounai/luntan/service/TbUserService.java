@@ -6,6 +6,7 @@ import com.woqiyounai.luntan.request.UserLoginRequest;
 import com.woqiyounai.luntan.request.UserRegisteredRequest;
 import com.woqiyounai.luntan.response.other.OneBlogCatalogResponse;
 import com.woqiyounai.luntan.response.other.OneForumCatalogResponse;
+import com.woqiyounai.luntan.response.other.SearchResponse;
 
 public interface TbUserService {
     TbUser getById(int i);
@@ -27,4 +28,6 @@ public interface TbUserService {
     boolean selectUserByPassword(String getbPassword, Integer userId);
 
     TbUser findUserByUserId(Integer userId);
+
+    SearchResponse searchAll(String searchName);
 }

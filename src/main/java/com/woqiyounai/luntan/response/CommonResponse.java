@@ -5,7 +5,7 @@ public class CommonResponse<T> {
     private String msg;
     private T data;
 
-    public CommonResponse( ) {
+    public CommonResponse() {
     }
 
     public CommonResponse(Integer code, String msg, T data) {
@@ -45,5 +45,11 @@ public class CommonResponse<T> {
                 ", msg='" + msg + '\'' +
                 ", data=" + data +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println(23&45);
+        System.out.println(23|45);
+        System.out.println(23^45);
     }
 }

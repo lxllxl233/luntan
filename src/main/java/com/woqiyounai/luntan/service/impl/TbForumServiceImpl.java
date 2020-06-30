@@ -1,7 +1,6 @@
 package com.woqiyounai.luntan.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.woqiyounai.luntan.entity.TbBlogComment;
 import com.woqiyounai.luntan.entity.TbForum;
 import com.woqiyounai.luntan.entity.TbForumCommit;
 import com.woqiyounai.luntan.mapper.TbForumCommitMapper;
@@ -9,7 +8,6 @@ import com.woqiyounai.luntan.mapper.TbForumMapper;
 import com.woqiyounai.luntan.request.LunTanCommentRequest;
 import com.woqiyounai.luntan.request.LunTanReleaseRequest;
 import com.woqiyounai.luntan.request.LunTanUpdateRequest;
-import com.woqiyounai.luntan.response.other.OneBlogCommentResponse;
 import com.woqiyounai.luntan.response.other.OneForumCommentResponse;
 import com.woqiyounai.luntan.service.TbForumService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +56,7 @@ public class TbForumServiceImpl implements TbForumService {
     @Override
     public List<TbForum> getLunTanByV2Id(Integer v2Id) {
         QueryWrapper<TbForum> tbForumQueryWrapper = new QueryWrapper<>();
+        tbForumQueryWrapper.select("id","user_id","v2_id","title","create_time","update_time");
         tbForumQueryWrapper.like("v2_id",v2Id);
         List<TbForum> tbForumList = tbForumMapper.selectList(tbForumQueryWrapper);
         return tbForumList;
@@ -96,5 +95,10 @@ public class TbForumServiceImpl implements TbForumService {
             return oneForumCommentResponse;
         }
         return null;
+    }
+
+    @Override
+    public TbForum getLunTanById(Integer forumId) {
+        return tbForumMapper.selectById(forumId);
     }
 }

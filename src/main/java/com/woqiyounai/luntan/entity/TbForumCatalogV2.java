@@ -63,6 +63,12 @@ public class TbForumCatalogV2 implements Serializable {
         this.name = name;
     }
 
+    public TbForumCatalogV2(String name, Integer v1Id) {
+        this.id = 0;
+        this.name = name;
+        this.v1Id = v1Id;
+    }
+
     public Integer getId() {
         return id;
     }

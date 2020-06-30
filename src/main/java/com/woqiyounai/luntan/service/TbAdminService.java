@@ -13,11 +13,7 @@ public interface TbAdminService {
     void addBlogCatalogV1(String name);
 
     void addForumCatalogV1(String name);
-
-    void addBlogCatalogV2(String name);
-
-    void addForumCatalogV2(String name);
-
+    
     void updateBlogCatalogV1(Integer id, String name);
 
     void updateForumCatalogV1(Integer id, String name);
@@ -35,4 +31,22 @@ public interface TbAdminService {
     void deleteForumCatalogV2(Integer id);
 
     List<TbUser> getAllUser();
+
+    List<TbUser> getAllAdmin();
+
+    List<TbBlog> getAllBlog();
+
+    List<TbForum> getAllForum();
+
+    void deleteUser(Integer userId);
+
+    void initUserPassword(Integer userId);
+
+    void addBlogCatalogV2(String name, Integer v1Id);
+
+    void addForumCatalogV2(String name, Integer v1Id);
+
+    void deleteForum(Integer forunId);
+
+    void deleteBlog(Integer blogId);
 }

@@ -8,6 +8,7 @@ import com.woqiyounai.luntan.request.UserLoginRequest;
 import com.woqiyounai.luntan.request.UserRegisteredRequest;
 import com.woqiyounai.luntan.response.other.OneBlogCatalogResponse;
 import com.woqiyounai.luntan.response.other.OneForumCatalogResponse;
+import com.woqiyounai.luntan.response.other.SearchResponse;
 import com.woqiyounai.luntan.service.TbUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,10 @@ public class TbUserServiceImpl implements TbUserService {
     TbForumCatalogV2Mapper tbForumCatalogV2Mapper;
     @Autowired
     TbUserMapper tbUserMapper;
+    @Autowired
+    TbForumMapper tbForumMapper;
+    @Autowired
+    TbBlogMapper tbBlogMapper;
     @Override
     public TbUser getById(int i) {
         return tbUserMapper.selectById(i);
@@ -127,6 +132,29 @@ public class TbUserServiceImpl implements TbUserService {
     @Override
     public TbUser findUserByUserId(Integer userId) {
         return tbUserMapper.selectById(userId);
+    }
+
+    @Override
+    public SearchResponse searchAll(String searchName) {
+        SearchResponse searchResponse = new SearchResponse();
+        //搜索用户
+        QueryWrapper<TbUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("username",searchName);
+        List<TbUser> tbUsers = tbUserMapper.selectList(queryWrapper);
+        searchResponse.setTbUsers(tbUsers);
+        //搜索论坛
+        QueryWrapper<TbForum> tbForumQueryWrapper = new QueryWrapper<>();
+        tbForumQueryWrapper.select("id","user_id","v2_id","title","create_time","update_time");
+        tbForumQueryWrapper.like("title",searchName);
+        List<TbForum> tbForumList = tbForumMapper.selectList(tbForumQueryWrapper);
+        searchResponse.setTbForums(tbForumList);
+        //搜索博客
+        QueryWrapper<TbBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.select("id","user_id","v2_id","title","create_time","update_time");
+        blogQueryWrapper.like("title",searchName);
+        List<TbBlog> blogList = tbBlogMapper.selectList(blogQueryWrapper);
+        searchResponse.setTbBlogs(blogList);
+        return searchResponse;
     }
 
 }

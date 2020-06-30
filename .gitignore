@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 HELP.md
 target/
 !.mvn/wrapper/maven-wrapper.jar
@@ -33,3 +34,8 @@ build/
 mvnw
 mvnw.cmd
 
+=======
+xinli.iml
+target
+.idea
+>>>>>>> 7cad11a70bdf5eaf8151280acf93ff968197a7ba

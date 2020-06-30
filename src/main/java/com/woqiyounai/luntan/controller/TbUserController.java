@@ -12,6 +12,7 @@ import com.woqiyounai.luntan.response.CommonResponse;
 import com.woqiyounai.luntan.response.other.LoginResponse;
 import com.woqiyounai.luntan.response.other.OneBlogCatalogResponse;
 import com.woqiyounai.luntan.response.other.OneForumCatalogResponse;
+import com.woqiyounai.luntan.response.other.SearchResponse;
 import com.woqiyounai.luntan.response.other.info.OneBlogCatalog;
 import com.woqiyounai.luntan.response.other.info.OneForumCatalog;
 import com.woqiyounai.luntan.service.TbUserService;
@@ -198,21 +199,17 @@ public class TbUserController {
         }
     }
 
+    //模糊搜索，与此关键词有关的人，论坛，博客
+    @ApiOperation("模糊搜索与此关键词有关的人，博客，论坛")
+    @GetMapping("/api/user/searchAll")
+    public CommonResponse<SearchResponse> searchAll(String searchName){
+        SearchResponse searchResponse = null;
+        try {
+            searchResponse = tbUserService.searchAll(searchName);
+            return new CommonResponse<>(200,"搜索成功",searchResponse);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new CommonResponse<>(500,"搜索失败",null);
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.woqiyounai.luntan.entity.*;
 import com.woqiyounai.luntan.mapper.*;
 import com.woqiyounai.luntan.service.TbAdminService;
-import com.woqiyounai.luntan.service.TbUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 
@@ -22,6 +22,10 @@ public class TbAdminServiceImpl implements TbAdminService {
     TbBlogCatalogV2Mapper tbBlogCatalogV2Mapper;
     @Autowired
     TbUserMapper tbUserMapper;
+    @Autowired
+    TbBlogMapper tbBlogMapper;
+    @Autowired
+    TbForumMapper tbForumMapper;
     @Override
     public List<TbForumCatalogV1> getForumCatalogV1() {
         return tbForumCatalogV1Mapper.selectList(null);
@@ -58,18 +62,6 @@ public class TbAdminServiceImpl implements TbAdminService {
     public void addForumCatalogV1(String name) {
         TbForumCatalogV1 tbForumCatalogV1 = new TbForumCatalogV1(name);
         tbForumCatalogV1Mapper.insert(tbForumCatalogV1);
-    }
-
-    @Override
-    public void addBlogCatalogV2(String name) {
-       TbBlogCatalogV2 tbBlogCatalogV2 = new TbBlogCatalogV2(name);
-       tbBlogCatalogV2Mapper.insert(tbBlogCatalogV2);
-    }
-
-    @Override
-    public void addForumCatalogV2(String name) {
-        TbForumCatalogV2 tbForumCatalogV2 = new TbForumCatalogV2(name);
-        tbForumCatalogV2Mapper.insert(tbForumCatalogV2);
     }
 
     @Override
@@ -124,6 +116,67 @@ public class TbAdminServiceImpl implements TbAdminService {
 
     @Override
     public List<TbUser> getAllUser() {
-        return tbUserMapper.selectList(null);
+        QueryWrapper<TbUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("identity",1);
+        return tbUserMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<TbUser> getAllAdmin() {
+        QueryWrapper<TbUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("identity",0);
+        return tbUserMapper.selectList(wrapper);
+    }
+
+    @Override
+    public List<TbBlog> getAllBlog() {
+        QueryWrapper<TbBlog> blogQueryWrapper = new QueryWrapper<>();
+        blogQueryWrapper.select("id","user_id","v2_id","title","create_time","update_time");
+        List<TbBlog> blogList = tbBlogMapper.selectList(blogQueryWrapper);
+        return blogList;
+    }
+
+    @Override
+    public List<TbForum> getAllForum() {
+        QueryWrapper<TbForum> tbForumQueryWrapper = new QueryWrapper<>();
+        tbForumQueryWrapper.select("id","user_id","v2_id","title","create_time","update_time");
+        List<TbForum> tbForumList = tbForumMapper.selectList(tbForumQueryWrapper);
+        return tbForumList;
+    }
+
+    @Override
+    public void deleteUser(Integer userId) {
+        tbUserMapper.deleteById(userId);
+    }
+
+    @Override
+    public void initUserPassword(Integer userId) {
+        TbUser tbUser = tbUserMapper.selectById(userId);
+        tbUser.setUserPassword(DigestUtils.md5DigestAsHex(
+                "666666".getBytes()
+        ));
+        tbUserMapper.updateById(tbUser);
+    }
+
+    @Override
+    public void addBlogCatalogV2(String name, Integer v1Id) {
+        TbBlogCatalogV2 tbBlogCatalogV2 = new TbBlogCatalogV2(name, v1Id);
+        tbBlogCatalogV2Mapper.insert(tbBlogCatalogV2);
+    }
+
+    @Override
+    public void addForumCatalogV2(String name, Integer v1Id) {
+        TbForumCatalogV2 tbForumCatalogV2 = new TbForumCatalogV2(name,v1Id);
+        tbForumCatalogV2Mapper.insert(tbForumCatalogV2);
+    }
+
+    @Override
+    public void deleteForum(Integer forunId) {
+        tbForumMapper.deleteById(forunId);
+    }
+
+    @Override
+    public void deleteBlog(Integer blogId) {
+        tbBlogMapper.deleteById(blogId);
     }
 }

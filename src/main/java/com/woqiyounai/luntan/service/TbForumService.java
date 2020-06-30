@@ -22,4 +22,6 @@ public interface TbForumService {
     void postComment(LunTanCommentRequest lunTanCommentRequest);
 
     OneForumCommentResponse getComment(Integer forumId);
+
+    TbForum getLunTanById(Integer forumId);
 }
