@@ -7,11 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class UploadFile {
-
-    //AccessKey ID：
-    //LTAI4GC3znL5YpJCTGnfYrz9
-    //AccessKey Secret：
-    //kBQHLmYwe60pz1Ovj77JycFMz1yulz
     //加入阿里云
     @Bean
     public OSS getOssClient(){
